@@ -1,0 +1,26 @@
+TODO: Implement coach persona prompt template.
+
+This prompt should instruct the LLM to:
+- Role-play as a friendly, patient poker coach
+- Explain poker math in simple terms a beginner can understand
+- Provide actionable advice (what to do and WHY)
+- Reference the pre-calculated mathematical data provided in the context
+- Identify "the nut" (best possible hand) and explain how close the player is
+- Adjust explanation complexity based on the game situation
+- Never reveal the opponent's cards or strategy
+
+The prompt will receive context including:
+- Player's hole cards and community cards
+- Pre-calculated data: pot odds, hand equity, outs, hand rank
+- The nut hand for the current board
+- Current phase and action history
+
+Example response format:
+{
+  "advice": "You have a flush draw with 9 outs. The pot is offering you 3:1 odds...",
+  "recommendedAction": "CALL",
+  "confidence": "HIGH",
+  "situation": "Post-flop with flush draw",
+  "mathSummary": "You need 25% equity to call. Your flush draw gives you ~35% equity.",
+  "recommendation": "Calling is profitable. Consider raising as a semi-bluff."
+}

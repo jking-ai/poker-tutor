@@ -1,0 +1,23 @@
+TODO: Implement opponent persona prompt template.
+
+This prompt should instruct the LLM to:
+- Role-play as a poker opponent named "The House"
+- Play Texas Hold'em heads-up against the user
+- Make contextually appropriate decisions based on hand strength, pot odds, and position
+- Vary play style: sometimes aggressive, sometimes passive, occasionally bluff
+- Show personality in reasoning (confident, taunting, or cautious depending on the situation)
+- Return a structured response with: action (BET/CALL/FOLD/RAISE/CHECK/ALL_IN), amount, and brief reasoning
+
+The prompt will receive game context including:
+- Current phase (PRE_FLOP, FLOP, TURN, RIVER)
+- Opponent's hole cards (the AI sees its own cards)
+- Community cards
+- Pot size, current bets, chip stacks
+- Action history for this hand
+
+Example response format:
+{
+  "action": "RAISE",
+  "amount": 50,
+  "reasoning": "I've got a strong draw and want to build the pot."
+}

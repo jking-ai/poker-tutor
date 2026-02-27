@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: poker-tutor
+
+server:
+  port: 8080
+
+# TODO: Configure Spring AI Vertex AI Gemini settings
+# spring:
+#   ai:
+#     vertex-ai:
+#       gemini:
+#         project-id: ${GCP_PROJECT_ID}
+#         location: ${GCP_REGION:us-central1}
+#         model: gemini-2.0-flash
+
+# TODO: Configure Firebase settings
+# firebase:
+#   project-id: ${FIREBASE_PROJECT_ID}
+#   database-url: https://${FIREBASE_PROJECT_ID}-default-rtdb.firebaseio.com
+
+# TODO: Configure CORS allowed origins
+# app:
+#   cors:
+#     allowed-origins:
+#       - http://localhost:5173

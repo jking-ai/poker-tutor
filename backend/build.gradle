@@ -1,0 +1,68 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.google.cloud.tools.jib' version '3.4.4'
+}
+
+group = 'com.jkingai'
+version = '1.0.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.ai:spring-ai-bom:1.0.0'
+    }
+}
+
+dependencies {
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Spring AI - Vertex AI Gemini
+    implementation 'org.springframework.ai:spring-ai-vertex-ai-gemini-spring-boot-starter'
+
+    // Firebase Admin SDK
+    implementation 'com.google.firebase:firebase-admin:9.4.2'
+
+    // Jackson (JSON)
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // Lombok (optional, for reducing boilerplate)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+jib {
+    from {
+        image = 'eclipse-temurin:21-jre'
+    }
+    to {
+        // TODO: Configure target image in Artifact Registry
+        image = 'us-central1-docker.pkg.dev/PROJECT_ID/poker-tutor/backend'
+        tags = ['latest', version]
+    }
+    container {
+        mainClass = 'com.jkingai.pokertutor.PokerTutorApplication'
+        ports = ['8080']
+        jvmFlags = ['-Xms256m', '-Xmx512m']
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

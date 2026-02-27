@@ -1,0 +1,39 @@
+/* Global styles for "The Nut" Poker Tutor */
+/* Poker table aesthetic: dark theme, green felt, gold accents */
+
+/* TODO: Implement global styles */
+
+:root {
+  /* Color palette */
+  --color-felt-green: #2d5016;
+  --color-dark-bg: #1a1a2e;
+  --color-card-bg: #16213e;
+  --color-gold: #ffd700;
+  --color-chip-white: #f0f0f0;
+  --color-suit-red: #e74c3c;
+  --color-suit-black: #ecf0f1;
+
+  /* TODO: Add more CSS custom properties for consistent theming */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-dark-bg);
+  color: var(--color-chip-white);
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  min-height: 100vh;
+}
+
+/* TODO: Add styles for:
+   - Playing card components (border-radius, shadows, sizing)
+   - Poker table felt background texture
+   - Chip count displays
+   - Action button hover/active states
+   - Phase indicator styling
+   - Responsive breakpoints
+*/
