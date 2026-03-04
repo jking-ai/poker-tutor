@@ -2,12 +2,13 @@ spring:
   application:
     name: poker-tutor
   ai:
-    vertex-ai:
-      gemini:
-        project-id: ${GCP_PROJECT_ID:placeholder}
-        location: ${GCP_REGION:us-central1}
+    vertex:
+      ai:
+        gemini:
+          project-id: ${GCP_PROJECT_ID:jking-ai-labs}
+          location: ${GCP_REGION:us-central1}
     model:
-      chat: vertex-ai-gemini
+      chat: vertexai
 
 server:
   port: 8080

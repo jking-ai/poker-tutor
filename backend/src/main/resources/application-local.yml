@@ -1,26 +1,12 @@
 # Local development profile
 # Activated with: ./gradlew bootRun (SPRING_PROFILES_ACTIVE=local)
 
-# TODO: Configure local development settings
-
-# spring:
-#   ai:
-#     vertex-ai:
-#       gemini:
-#         project-id: your-gcp-project-id
-#         location: us-central1
-
-# TODO: Configure local GCP credentials
-# google:
-#   cloud:
-#     credentials:
-#       location: classpath:gcp-credentials.json
-
-# TODO: Configure local CORS (allow Vite dev server)
-# app:
-#   cors:
-#     allowed-origins:
-#       - http://localhost:5173
+spring:
+  ai:
+    vertex-ai:
+      gemini:
+        project-id: jking-ai-labs
+        location: us-central1
 
 logging:
   level:
