@@ -1,0 +1,53 @@
+:root {
+  --felt-green: #1a6b2a;
+  --felt-dark: #0d3d15;
+  --rail-light: #6b3a18;
+  --rail-dark: #2a1505;
+  --gold: #ffd700;
+  --gold-dim: #b8960f;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  --panel-bg: rgba(10, 14, 20, 0.85);
+  --panel-border: rgba(255,255,255,0.06);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0a0e14;
+  color: #e8eaed;
+  font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* Card flip animation */
+@keyframes cardDeal {
+  from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.card-deal {
+  animation: cardDeal 0.25s ease-out;
+}
+
+/* Pot pulse */
+@keyframes potPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.04); }
+}
+
+/* Glow for active turn */
+@keyframes turnGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,215,0,0.3); }
+  50%      { box-shadow: 0 0 16px rgba(255,215,0,0.5); }
+}

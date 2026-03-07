@@ -1,0 +1,23 @@
+services:
+  poker-tutor:
+    build: .
+    ports:
+      - "${HOST_PORT:-8080}:8080"
+    environment:
+      - APP_AI_ENABLED=${APP_AI_ENABLED:-true}
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID:-jking-ai-labs}
+      - GCP_REGION=${GCP_REGION:-us-central1}
+      - AI_MODEL=${AI_MODEL:-gemini-2.0-flash}
+      - GOOGLE_APPLICATION_CREDENTIALS=/gcp/credentials.json
+      - CORS_ALLOWED_ORIGINS=
+      - MAX_AI_CALLS_PER_GAME=${MAX_AI_CALLS_PER_GAME:-200}
+      - MAX_CONCURRENT_GAMES=${MAX_CONCURRENT_GAMES:-15}
+      - MAX_COACHING_PER_HAND=${MAX_COACHING_PER_HAND:-3}
+    volumes:
+      - ${GCP_CREDENTIALS_PATH:-~/.gcp/poker-tutor-sa.json}:/gcp/credentials.json:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/api/v1/games/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

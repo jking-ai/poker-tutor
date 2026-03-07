@@ -1,0 +1,9 @@
+logging:
+  level:
+    com.jkingai.pokertutor: DEBUG
+
+# To enable AI opponent, set:
+# app:
+#   ai:
+#     enabled: true
+# And configure Vertex AI credentials
