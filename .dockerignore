@@ -1,0 +1,12 @@
+.git
+.gitignore
+*.md
+backend/build/
+backend/bin/
+backend/.gradle/
+frontend/node_modules/
+frontend/dist/
+.env
+*.json
+!frontend/package.json
+!frontend/package-lock.json

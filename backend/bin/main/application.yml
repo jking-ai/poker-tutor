@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: poker-tutor
+  autoconfigure:
+    exclude:
+      - org.springframework.ai.autoconfigure.vertexai.gemini.VertexAiGeminiAutoConfiguration
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  ai:
+    enabled: ${APP_AI_ENABLED:false}
+    project-id: ${GCP_PROJECT_ID:your-gcp-project-id}
+    location: ${GCP_REGION:us-central1}
+    model: ${AI_MODEL:gemini-2.0-flash}
+  limits:
+    max-ai-calls-per-game: ${MAX_AI_CALLS_PER_GAME:200}
+    max-concurrent-games: ${MAX_CONCURRENT_GAMES:15}
+    max-coaching-per-hand: ${MAX_COACHING_PER_HAND:3}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
