@@ -163,12 +163,12 @@ MAX_CONCURRENT_GAMES=5 ./deploy.sh               # Tighter limits
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `REMOTE_HOST` | `king@king-ubuntu` | SSH target |
+| `REMOTE_HOST` | `user@your-server` | SSH target |
 | `REMOTE_APP_DIR` | `/home/king/apps/poker-tutor` | Remote install directory |
 | `HOST_PORT` | `8080` | Port exposed on the host |
 | `GCP_CREDENTIALS_PATH` | `~/.gcp/poker-tutor-sa.json` | Local path to GCP service account key |
 | `APP_AI_ENABLED` | `true` | Enable Gemini AI opponent and coach |
-| `GCP_PROJECT_ID` | `jking-ai-labs` | GCP project for Vertex AI |
+| `GCP_PROJECT_ID` | `your-gcp-project-id` | GCP project for Vertex AI |
 | `GCP_REGION` | `us-central1` | GCP region |
 | `AI_MODEL` | `gemini-2.0-flash` | Gemini model ID |
 | `IMAGE_TAG` | `latest` | Docker image tag |
@@ -208,16 +208,16 @@ Three-stage multi-stage build:
 
 ```bash
 # View logs
-ssh king@king-ubuntu docker logs -f poker-tutor
+ssh user@your-server docker logs -f poker-tutor
 
 # Restart
-ssh king@king-ubuntu docker restart poker-tutor
+ssh user@your-server docker restart poker-tutor
 
 # Check status
-ssh king@king-ubuntu docker ps --filter name=poker-tutor
+ssh user@your-server docker ps --filter name=poker-tutor
 
 # Health check
-curl http://192.168.68.150:8080/api/v1/games/health
+curl http://your.server.ip:8080/api/v1/games/health
 ```
 
 ---
@@ -230,7 +230,7 @@ All configuration is via environment variables with sensible defaults:
 |----------|---------|-------------|
 | `SERVER_PORT` | `8080` | Backend server port |
 | `APP_AI_ENABLED` | `false` | Enable AI opponent and coach (requires GCP credentials) |
-| `GCP_PROJECT_ID` | `jking-ai-labs` | GCP project for Vertex AI |
+| `GCP_PROJECT_ID` | `your-gcp-project-id` | GCP project for Vertex AI |
 | `GCP_REGION` | `us-central1` | GCP region for Vertex AI |
 | `AI_MODEL` | `gemini-2.0-flash` | Gemini model to use |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:5173` | Allowed CORS origins (blank = same-origin mode) |

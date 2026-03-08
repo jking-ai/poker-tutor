@@ -26,7 +26,7 @@ npm run dev                      # Dev server on :5173, proxies /api to :8080
 npm run build                    # Production build to ./dist/
 
 # Deploy
-./deploy.sh                      # Build + deploy to remote server (king@king-ubuntu)
+./deploy.sh                      # Build + deploy to remote server (user@your-server)
 docker compose up --build        # Local Docker build + run
 ```
 
