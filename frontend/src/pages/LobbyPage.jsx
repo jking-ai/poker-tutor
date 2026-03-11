@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Box, Typography, TextField, Button, MenuItem,
   CircularProgress, Alert, Dialog, DialogTitle, DialogContent,
-  DialogContentText, DialogActions,
+  DialogContentText, DialogActions, useMediaQuery,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { createGame } from '../api/client';
@@ -22,6 +22,7 @@ function LobbyPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const isMobile = useMediaQuery('(max-width:767px)');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,13 +59,19 @@ function LobbyPage() {
   return (
     <Box sx={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      minHeight: 'calc(100vh - 42px)', px: 4, mt: '-100px',
+      minHeight: 'calc(100vh - 42px)',
+      px: isMobile ? 2 : 4,
+      mt: isMobile ? 0 : '-100px',
     }}>
       <Box sx={{
-        display: 'flex', alignItems: 'center', gap: 6,
+        display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
+        alignItems: 'center',
+        gap: isMobile ? 3 : 6,
         maxWidth: 820,
+        width: '100%',
       }}>
-        {/* Left — Logo */}
+        {/* Logo */}
         <Box sx={{
           flex: '0 0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center',
         }}>
@@ -73,23 +80,27 @@ function LobbyPage() {
             src="/the-nut-logo.png"
             alt="The Nut"
             sx={{
-              width: 340, height: 'auto',
+              width: isMobile ? 180 : 340,
+              height: 'auto',
               filter: 'drop-shadow(0 4px 24px rgba(255,215,0,0.15))',
             }}
           />
-          <Typography sx={{ fontSize: '0.65rem', color: '#333', mt: 1 }}>
+          <Typography sx={{ fontSize: '0.65rem', color: '#333', mt: 1, textAlign: 'center' }}>
             Heads-up No-Limit Texas Hold'em with AI coaching
           </Typography>
         </Box>
 
-        {/* Right — Form */}
-        <Box sx={{ flex: '1 1 320px', maxWidth: 360 }}>
-          <Typography sx={{ fontSize: '0.8rem', color: '#555', mb: 2, letterSpacing: '0.1em' }}>
+        {/* Form */}
+        <Box sx={{ flex: '1 1 320px', maxWidth: 360, width: '100%' }}>
+          <Typography sx={{
+            fontSize: '0.8rem', color: '#555', mb: 2, letterSpacing: '0.1em',
+            textAlign: isMobile ? 'center' : 'left',
+          }}>
             TEXAS HOLD'EM POKER TUTOR
           </Typography>
 
           <Box sx={{
-            width: '100%', p: 3, borderRadius: '12px',
+            width: '100%', p: isMobile ? 2.5 : 3, borderRadius: '12px',
             bgcolor: 'rgba(19,26,36,0.8)',
             border: '1px solid rgba(255,255,255,0.06)',
             backdropFilter: 'blur(8px)',
@@ -163,6 +174,7 @@ function LobbyPage() {
           sx: {
             bgcolor: '#1a2233', border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '12px', maxWidth: 420,
+            mx: isMobile ? 2 : 'auto',
           },
         }}
       >

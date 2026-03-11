@@ -2,12 +2,12 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import CardDisplay from './CardDisplay';
 
-function PlayerPanel({ player, isCurrentTurn, showCards = true, position = 'bottom', isAiThinking = false, thought = null }) {
+function PlayerPanel({ player, isCurrentTurn, showCards = true, position = 'bottom', isAiThinking = false, thought = null, compact = false }) {
   if (!player) return null;
 
   const isTop = position === 'top';
-
   const showBubble = isTop && thought;
+  const cardSize = compact ? 'compact' : 'small';
 
   return (
     <Box sx={{
@@ -18,14 +18,14 @@ function PlayerPanel({ player, isCurrentTurn, showCards = true, position = 'bott
       {/* Thought bubble — fixed height reservation so layout never shifts */}
       {isTop && (
         <Box sx={{
-          height: 44, width: 240,
+          height: compact ? 36 : 44, width: compact ? 200 : 240,
           display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
           mb: 0.3,
         }}>
           {showBubble && (
             <Box sx={{
               position: 'relative',
-              maxWidth: 230, px: 1.2, py: 0.4,
+              maxWidth: compact ? 190 : 230, px: 1.2, py: 0.4,
               bgcolor: 'rgba(245,158,11,0.08)',
               border: '1px solid rgba(245,158,11,0.2)',
               borderRadius: '10px',
@@ -41,7 +41,7 @@ function PlayerPanel({ player, isCurrentTurn, showCards = true, position = 'bott
               },
             }}>
               <Typography sx={{
-                fontSize: '0.58rem', color: '#f59e0b', opacity: 0.8,
+                fontSize: compact ? '0.52rem' : '0.58rem', color: '#f59e0b', opacity: 0.8,
                 fontStyle: 'italic', lineHeight: 1.35, textAlign: 'center',
                 display: '-webkit-box',
                 WebkitLineClamp: 2,
@@ -57,26 +57,26 @@ function PlayerPanel({ player, isCurrentTurn, showCards = true, position = 'bott
 
       {/* Cards */}
       <Box sx={{
-        display: 'flex', gap: '4px',
+        display: 'flex', gap: compact ? '3px' : '4px',
         order: isTop ? 0 : 1,
         filter: player.folded ? 'grayscale(0.8)' : 'none',
       }}>
         {player.holeCards ? (
           player.holeCards.map((card, i) => (
-            <CardDisplay key={i} card={card} size="small" />
+            <CardDisplay key={i} card={card} size={cardSize} />
           ))
         ) : (
           <>
-            <CardDisplay faceDown size="small" />
-            <CardDisplay faceDown size="small" />
+            <CardDisplay faceDown size={cardSize} />
+            <CardDisplay faceDown size={cardSize} />
           </>
         )}
       </Box>
 
       {/* Info bar */}
       <Box sx={{
-        display: 'flex', alignItems: 'center', gap: 1,
-        px: 1.5, py: 0.4, mt: 0.5,
+        display: 'flex', alignItems: 'center', gap: compact ? 0.6 : 1,
+        px: compact ? 1 : 1.5, py: compact ? 0.3 : 0.4, mt: 0.5,
         borderRadius: '20px',
         background: isCurrentTurn
           ? 'linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05))'
@@ -88,8 +88,8 @@ function PlayerPanel({ player, isCurrentTurn, showCards = true, position = 'bott
         order: isTop ? 1 : 0,
       }}>
         <Typography sx={{
-          fontSize: '0.75rem', fontWeight: 600, color: '#e8eaed',
-          maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+          fontSize: compact ? '0.68rem' : '0.75rem', fontWeight: 600, color: '#e8eaed',
+          maxWidth: compact ? 80 : 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
           {player.name}
         </Typography>

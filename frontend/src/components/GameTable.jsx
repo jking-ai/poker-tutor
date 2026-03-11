@@ -1,25 +1,27 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, useMediaQuery } from '@mui/material';
 import CardDisplay from './CardDisplay';
 import PlayerPanel from './PlayerPanel';
 import ActionControls from './ActionControls';
 
-function GameTable({ game, onAction, onDealNextHand, disabled }) {
+function GameTable({ game, onAction, onDealNextHand, disabled, compact = false }) {
+  const isMobile = useMediaQuery('(max-width:767px)');
+  const isCompact = compact || isMobile;
+
   if (!game) return null;
 
   const opponent = game.players[1];
   const player = game.players[0];
   const isShowdown = game.phase === 'SHOWDOWN';
 
-  // Get AI's latest thought (table talk during play, reasoning after showdown)
   const aiThought = game.lastAction?.player === opponent.name
     ? game.lastAction.reasoning : null;
 
   return (
     <Box sx={{
       display: 'flex', flexDirection: 'column',
-      alignItems: 'center', gap: 1,
-      width: '100%', maxWidth: 640,
+      alignItems: 'center', gap: isCompact ? 0.5 : 1,
+      width: '100%', maxWidth: isCompact ? '100%' : 640,
     }}>
       {/* Opponent */}
       <PlayerPanel
@@ -29,12 +31,13 @@ function GameTable({ game, onAction, onDealNextHand, disabled }) {
         position="top"
         isAiThinking={game.currentPlayerIndex === 1 && !isShowdown && !game.gameOver}
         thought={aiThought}
+        compact={isCompact}
       />
 
       {/* ---- Poker Table ---- */}
       <Box sx={{
         position: 'relative',
-        width: '100%', maxWidth: 560,
+        width: '100%', maxWidth: isCompact ? 380 : 560,
         aspectRatio: '2.2 / 1',
       }}>
         {/* Outer rail */}
@@ -47,17 +50,17 @@ function GameTable({ game, onAction, onDealNextHand, disabled }) {
 
         {/* Inner felt */}
         <Box sx={{
-          position: 'absolute', inset: '12px',
+          position: 'absolute', inset: isCompact ? '8px' : '12px',
           borderRadius: '50%',
           background: 'radial-gradient(ellipse at 50% 40%, #2a7a35 0%, #1a5c25 40%, #0d3d15 100%)',
           boxShadow: 'inset 0 4px 20px rgba(0,0,0,0.5)',
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'center',
-          gap: 0.75,
+          gap: isCompact ? 0.4 : 0.75,
         }}>
           {/* Phase label */}
           <Typography sx={{
-            fontSize: '0.55rem', fontWeight: 600,
+            fontSize: isCompact ? '0.48rem' : '0.55rem', fontWeight: 600,
             color: 'rgba(255,215,0,0.5)', letterSpacing: '0.2em',
             textTransform: 'uppercase',
           }}>
@@ -65,15 +68,21 @@ function GameTable({ game, onAction, onDealNextHand, disabled }) {
           </Typography>
 
           {/* Community cards */}
-          <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center', minHeight: 74 }}>
+          <Box sx={{
+            display: 'flex', gap: isCompact ? '3px' : '5px',
+            alignItems: 'center',
+            minHeight: isCompact ? 54 : 74,
+          }}>
             {game.communityCards.length > 0 ? (
               game.communityCards.map((card, i) => (
-                <CardDisplay key={i} card={card} />
+                <CardDisplay key={i} card={card} size={isCompact ? 'small' : 'normal'} />
               ))
             ) : (
               [0, 1, 2, 3, 4].map(i => (
                 <Box key={i} sx={{
-                  width: 52, height: 74, borderRadius: '6px',
+                  width: isCompact ? 36 : 52,
+                  height: isCompact ? 52 : 74,
+                  borderRadius: '5px',
                   border: '1px dashed rgba(255,255,255,0.08)',
                 }} />
               ))
@@ -83,12 +92,12 @@ function GameTable({ game, onAction, onDealNextHand, disabled }) {
           {/* Pot */}
           {game.pot > 0 && (
             <Box sx={{
-              px: 1.5, py: 0.3, borderRadius: '14px',
+              px: isCompact ? 1 : 1.5, py: 0.2, borderRadius: '14px',
               background: 'rgba(0,0,0,0.4)',
               border: '1px solid rgba(255,215,0,0.2)',
             }}>
               <Typography sx={{
-                fontSize: '0.8rem', fontWeight: 700,
+                fontSize: isCompact ? '0.68rem' : '0.8rem', fontWeight: 700,
                 color: '#ffd700',
                 fontFamily: '"JetBrains Mono", monospace',
               }}>
@@ -108,9 +117,10 @@ function GameTable({ game, onAction, onDealNextHand, disabled }) {
             ? 'linear-gradient(135deg, rgba(255,215,0,0.15), rgba(245,158,11,0.08))'
             : 'rgba(255,215,0,0.08)',
           border: '1px solid rgba(255,215,0,0.2)',
+          maxWidth: '100%',
         }}>
           <Typography sx={{
-            fontSize: '0.8rem', fontWeight: 600,
+            fontSize: isCompact ? '0.72rem' : '0.8rem', fontWeight: 600,
             color: '#ffd700', textAlign: 'center',
           }}>
             {game.gameOver ? 'GAME OVER — ' : ''}{game.winnerMessage}
@@ -120,18 +130,22 @@ function GameTable({ game, onAction, onDealNextHand, disabled }) {
 
       {/* Player area */}
       <Box sx={{
-        display: 'flex', alignItems: 'center', gap: 2,
+        display: 'flex',
+        flexDirection: isCompact ? 'column' : 'row',
+        alignItems: 'center', gap: isCompact ? 0.5 : 2,
         justifyContent: 'center',
+        width: '100%',
       }}>
         <PlayerPanel
           player={player}
           isCurrentTurn={game.currentPlayerIndex === 0}
           showCards={true}
           position="bottom"
+          compact={isCompact}
         />
 
         {game.gameOver ? (
-          <Box /> /* empty — game over message shown above */
+          <Box />
         ) : isShowdown ? (
           <Button
             variant="contained"
@@ -143,6 +157,7 @@ function GameTable({ game, onAction, onDealNextHand, disabled }) {
               border: '1px solid rgba(255,215,0,0.3)',
               fontWeight: 600, fontSize: '0.8rem',
               px: 2.5, py: 0.7,
+              minHeight: isCompact ? 40 : 'auto',
               '&:hover': {
                 bgcolor: 'rgba(255,215,0,0.2)',
                 border: '1px solid rgba(255,215,0,0.5)',
@@ -152,7 +167,7 @@ function GameTable({ game, onAction, onDealNextHand, disabled }) {
             Deal Next Hand
           </Button>
         ) : (
-          <ActionControls game={game} onAction={onAction} disabled={disabled} />
+          <ActionControls game={game} onAction={onAction} disabled={disabled} compact={isCompact} />
         )}
       </Box>
     </Box>

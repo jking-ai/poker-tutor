@@ -14,17 +14,25 @@ const RANK_DISPLAY = {
   JACK: 'J', QUEEN: 'Q', KING: 'K', ACE: 'A',
 };
 
+const SIZES = {
+  normal:  { w: 52, h: 74, rank: 15, suit: 13, center: 22 },
+  small:   { w: 44, h: 64, rank: 13, suit: 11, center: 18 },
+  compact: { w: 36, h: 52, rank: 11, suit: 9,  center: 15 },
+};
+
 function CardDisplay({ card, faceDown = false, size = 'normal' }) {
-  const w = size === 'small' ? 44 : 52;
-  const h = size === 'small' ? 64 : 74;
-  const rankSize = size === 'small' ? 13 : 15;
-  const suitSize = size === 'small' ? 11 : 13;
-  const centerSize = size === 'small' ? 18 : 22;
+  const s = SIZES[size] || SIZES.normal;
+  const w = s.w;
+  const h = s.h;
+  const rankSize = s.rank;
+  const suitSize = s.suit;
+  const centerSize = s.center;
+  const borderR = size === 'compact' ? '4px' : '6px';
 
   if (faceDown || !card) {
     return (
       <Box className="card-deal" sx={{
-        width: w, height: h, borderRadius: '6px',
+        width: w, height: h, borderRadius: borderR,
         background: 'linear-gradient(145deg, #1a3a5c, #0f2440)',
         border: '1.5px solid rgba(93,173,226,0.3)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -32,7 +40,7 @@ function CardDisplay({ card, faceDown = false, size = 'normal' }) {
         position: 'relative', overflow: 'hidden',
       }}>
         <Box sx={{
-          position: 'absolute', inset: 4, borderRadius: '4px',
+          position: 'absolute', inset: size === 'compact' ? 3 : 4, borderRadius: size === 'compact' ? '3px' : '4px',
           border: '1px solid rgba(93,173,226,0.15)',
         }} />
         <Typography sx={{ fontSize: centerSize - 2, color: 'rgba(93,173,226,0.4)', fontWeight: 700 }}>?</Typography>
@@ -47,7 +55,7 @@ function CardDisplay({ card, faceDown = false, size = 'normal' }) {
 
   return (
     <Box className="card-deal" sx={{
-      width: w, height: h, borderRadius: '6px',
+      width: w, height: h, borderRadius: borderR,
       background: 'linear-gradient(170deg, #ffffff 0%, #f1f0eb 100%)',
       boxShadow: '0 2px 8px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.8)',
       position: 'relative', overflow: 'hidden', cursor: 'default',
@@ -55,7 +63,7 @@ function CardDisplay({ card, faceDown = false, size = 'normal' }) {
       '&:hover': { transform: 'translateY(-2px)' },
     }}>
       {/* Top-left pip */}
-      <Box sx={{ position: 'absolute', top: 3, left: 4, lineHeight: 1, textAlign: 'center' }}>
+      <Box sx={{ position: 'absolute', top: size === 'compact' ? 2 : 3, left: size === 'compact' ? 3 : 4, lineHeight: 1, textAlign: 'center' }}>
         <Typography sx={{ fontSize: rankSize, fontWeight: 700, color, lineHeight: 1, fontFamily: '"Inter"' }}>
           {rank}
         </Typography>
@@ -74,7 +82,7 @@ function CardDisplay({ card, faceDown = false, size = 'normal' }) {
       </Box>
       {/* Bottom-right pip */}
       <Box sx={{
-        position: 'absolute', bottom: 3, right: 4,
+        position: 'absolute', bottom: size === 'compact' ? 2 : 3, right: size === 'compact' ? 3 : 4,
         lineHeight: 1, textAlign: 'center',
         transform: 'rotate(180deg)',
       }}>

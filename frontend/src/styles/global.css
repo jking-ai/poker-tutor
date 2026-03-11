@@ -24,6 +24,14 @@ body {
   overflow: hidden;
 }
 
+/* Allow vertical scrolling on mobile game page */
+@media (max-width: 767px) {
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }

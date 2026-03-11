@@ -10,7 +10,7 @@ const ACTION_CONFIG = {
   ALL_IN: { label: 'All In', bg: 'rgba(245,158,11,0.15)', border: 'rgba(245,158,11,0.4)', color: '#fbbf24', hoverBg: 'rgba(245,158,11,0.25)' },
 };
 
-function ActionControls({ game, onAction, disabled }) {
+function ActionControls({ game, onAction, disabled, compact = false }) {
   const [betAmount, setBetAmount] = useState(0);
   const [allInConfirm, setAllInConfirm] = useState(false);
 
@@ -38,6 +38,88 @@ function ActionControls({ game, onAction, disabled }) {
     setAllInConfirm(false);
   };
 
+  /* Mobile compact: horizontal row of buttons */
+  if (compact) {
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, width: '100%', maxWidth: 380 }}>
+        {/* Action buttons in a horizontal wrap */}
+        <Box sx={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {validActions.map((action) => {
+            const cfg = ACTION_CONFIG[action] || ACTION_CONFIG.CHECK;
+            const isAllIn = action === 'ALL_IN';
+            const showConfirm = isAllIn && allInConfirm;
+            return (
+              <Button
+                key={action}
+                onClick={() => handleAction(action)}
+                onBlur={() => { if (isAllIn) setAllInConfirm(false); }}
+                disabled={disabled}
+                size="small"
+                sx={{
+                  bgcolor: showConfirm ? 'rgba(239,68,68,0.15)' : cfg.bg,
+                  color: showConfirm ? '#fbbf24' : cfg.color,
+                  border: showConfirm
+                    ? '1px solid rgba(239,68,68,0.5)'
+                    : `1px solid ${cfg.border}`,
+                  fontWeight: 600, fontSize: '0.75rem',
+                  py: 0.8, px: 2,
+                  minHeight: 38,
+                  minWidth: 72,
+                  justifyContent: 'center',
+                  animation: showConfirm ? 'pulse 1.5s ease-in-out infinite' : 'none',
+                  '&:hover': {
+                    bgcolor: showConfirm ? 'rgba(239,68,68,0.25)' : cfg.hoverBg,
+                    border: showConfirm
+                      ? '1px solid rgba(239,68,68,0.7)'
+                      : `1px solid ${cfg.color}`,
+                  },
+                  '&.Mui-disabled': { opacity: 0.4 },
+                }}
+              >
+                {showConfirm
+                  ? `All In $${player.chips.toLocaleString()}`
+                  : cfg.label}
+              </Button>
+            );
+          })}
+        </Box>
+
+        {/* Bet slider */}
+        {showBetSlider && maxBet > minBet && (
+          <Box sx={{ px: 1, pt: 0.3 }}>
+            <Slider
+              size="small"
+              min={minBet}
+              max={maxBet}
+              step={minBet}
+              value={betAmount || minBet}
+              onChange={(_, val) => setBetAmount(val)}
+              sx={{
+                color: '#f59e0b',
+                height: 6,
+                '& .MuiSlider-thumb': {
+                  width: 20, height: 20,
+                  bgcolor: '#fbbf24',
+                  '&:hover': { boxShadow: '0 0 8px rgba(251,191,36,0.4)' },
+                },
+                '& .MuiSlider-track': { border: 'none' },
+                '& .MuiSlider-rail': { bgcolor: 'rgba(255,255,255,0.08)' },
+              }}
+            />
+            <Typography sx={{
+              fontSize: '0.7rem', textAlign: 'center',
+              color: '#f59e0b', fontWeight: 600,
+              fontFamily: '"JetBrains Mono", monospace',
+            }}>
+              ${(betAmount || minBet).toLocaleString()}
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    );
+  }
+
+  /* Desktop: vertical column layout */
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, minWidth: 110 }}>
       {/* Action buttons */}
