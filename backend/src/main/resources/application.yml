@@ -13,7 +13,7 @@ app:
     enabled: ${APP_AI_ENABLED:false}
     project-id: ${GCP_PROJECT_ID:your-gcp-project-id}
     location: ${GCP_REGION:us-central1}
-    model: ${AI_MODEL:gemini-2.0-flash}
+    model: ${AI_MODEL:gemini-3.1-flash-lite-preview}
   limits:
     max-ai-calls-per-game: ${MAX_AI_CALLS_PER_GAME:200}
     max-concurrent-games: ${MAX_CONCURRENT_GAMES:15}

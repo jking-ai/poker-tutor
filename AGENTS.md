@@ -6,7 +6,7 @@ Guidance for AI coding agents working in this repository. See [README.md](README
 
 - **Backend:** Spring Boot 3.4 + Spring AI + Spring Security (Java 21)
 - **Frontend:** React 19 + MUI + Vite SPA
-- **LLM:** Vertex AI Gemini 2.0 Flash via Spring AI ChatClient
+- **LLM:** Vertex AI Gemini 3.1 Flash-Lite via Spring AI ChatClient
 - **Packaging:** Single Docker container — frontend baked into backend static resources
 - **Monorepo:** `backend/` (Java/Gradle) and `frontend/` (React/npm)
 

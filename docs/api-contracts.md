@@ -70,7 +70,7 @@ curl http://localhost:8080/api/v1/health
   "status": "healthy",
   "service": "poker-tutor",
   "version": "1.0.0",
-  "model": "gemini-2.0-flash"
+  "model": "gemini-3.1-flash-lite-preview"
 }
 ```
 

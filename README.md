@@ -60,7 +60,7 @@ Browse to `http://<host>:8080` (or whatever `HOST_PORT` you configured).
 |-------|-----------|
 | **Backend** | Spring Boot 3.4, Java 21, Spring AI, Spring Security |
 | **Frontend** | React 19, Material UI, Vite |
-| **AI** | Vertex AI Gemini 2.0 Flash via Spring AI ChatClient |
+| **AI** | Vertex AI Gemini 3.1 Flash-Lite via Spring AI ChatClient |
 | **Packaging** | Multi-stage Dockerfile (Node + JDK + JRE) |
 | **Security** | CSRF protection (cookie-based tokens), configurable CORS |
 
@@ -170,7 +170,7 @@ MAX_CONCURRENT_GAMES=5 ./deploy.sh               # Tighter limits
 | `APP_AI_ENABLED` | `true` | Enable Gemini AI opponent and coach |
 | `GCP_PROJECT_ID` | `your-gcp-project-id` | GCP project for Vertex AI |
 | `GCP_REGION` | `us-central1` | GCP region |
-| `AI_MODEL` | `gemini-2.0-flash` | Gemini model ID |
+| `AI_MODEL` | `gemini-3.1-flash-lite-preview` | Gemini model ID |
 | `IMAGE_TAG` | `latest` | Docker image tag |
 
 #### What the script does
@@ -232,7 +232,7 @@ All configuration is via environment variables with sensible defaults:
 | `APP_AI_ENABLED` | `false` | Enable AI opponent and coach (requires GCP credentials) |
 | `GCP_PROJECT_ID` | `your-gcp-project-id` | GCP project for Vertex AI |
 | `GCP_REGION` | `us-central1` | GCP region for Vertex AI |
-| `AI_MODEL` | `gemini-2.0-flash` | Gemini model to use |
+| `AI_MODEL` | `gemini-3.1-flash-lite-preview` | Gemini model to use |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:5173` | Allowed CORS origins (blank = same-origin mode) |
 | `MAX_AI_CALLS_PER_GAME` | `200` | Max LLM calls per game (opponent + coach combined) |
 | `MAX_CONCURRENT_GAMES` | `15` | Max simultaneous active games |
