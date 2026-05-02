@@ -38,7 +38,7 @@ docker compose up --build        # Local Docker build + run
 - **Betting round complete:** Both players acted AND bets equalized (or all-in).
 - **AI fallback:** If AI is disabled or rate-limited, opponent silently falls back to random play.
 - **CSRF:** All POST endpoints require a valid `X-XSRF-TOKEN` header. Tests must use `.with(csrf())`. Health endpoint is exempt.
-- **Rate limiting:** `RateLimitService` enforces limits. Throws `RateLimitException` (HTTP 429) for game/coaching limits. Returns boolean for AI call limit (graceful degradation, no exception).
+- **Rate limiting:** `RateLimitService` enforces per-game / per-hand caps. Throws `RateLimitException` (HTTP 429) for game/coaching limits. Returns boolean for AI call limit (graceful degradation, no exception). A separate `GameCreationRateLimitFilter` (Bucket4j) enforces a per-IP cap on `POST /api/v1/games` (default 3/hour, `app.limits.games-created-per-hour-per-ip`); on hit it returns HTTP 429 with `{"error": "GAME_CREATION_RATE_LIMITED", ...}`.
 - **Scheduled cleanup:** `GameService.cleanupStaleGames()` runs every 10 min, removes games older than 2 hours.
 - **Spring AI BOM:** Version `1.0.0-M5` (not `1.0.0`). Auto-config excluded: `VertexAiGeminiAutoConfiguration`.
 - **Gradle wrapper:** 8.12, located in `backend/`.

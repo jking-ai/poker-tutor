@@ -130,13 +130,20 @@ In Docker (same-origin), CORS is disabled (`CORS_ALLOWED_ORIGINS=`). For local d
 
 ## Cost Protection
 
-Three layers of in-memory rate limiting prevent runaway AI costs:
+Four layers of in-memory rate limiting prevent runaway AI costs:
 
 | Limit | Default | Env Var | Behavior When Hit |
 |-------|---------|---------|-------------------|
+| **Game creation per IP** | 3 / hour | `GAMES_CREATED_PER_HOUR_PER_IP` | `POST /api/v1/games` returns HTTP 429 with `GAME_CREATION_RATE_LIMITED` |
 | **Concurrent games** | 15 | `MAX_CONCURRENT_GAMES` | New game creation returns HTTP 429 |
 | **AI calls per game** | 200 | `MAX_AI_CALLS_PER_GAME` | Opponent silently falls back to random; coaching returns deterministic math only |
 | **Coaching per hand** | 3 | `MAX_COACHING_PER_HAND` | Returns HTTP 429; frontend disables "Ask Coach" button |
+
+The per-IP throttle is implemented as a Bucket4j-backed `OncePerRequestFilter`
+(`config/GameCreationRateLimitFilter`). It applies only to `POST /api/v1/games`;
+GETs on existing games and the health endpoint are not throttled. The client IP
+is read from `X-Forwarded-For` when present (for reverse-proxy deployments),
+otherwise from `request.getRemoteAddr()`.
 
 Stale games (older than 2 hours) are automatically cleaned up every 10 minutes.
 
@@ -237,6 +244,7 @@ All configuration is via environment variables with sensible defaults:
 | `MAX_AI_CALLS_PER_GAME` | `200` | Max LLM calls per game (opponent + coach combined) |
 | `MAX_CONCURRENT_GAMES` | `15` | Max simultaneous active games |
 | `MAX_COACHING_PER_HAND` | `3` | Max coaching requests per hand |
+| `GAMES_CREATED_PER_HOUR_PER_IP` | `3` | Max new games a single client IP can create per hour |
 | `GOOGLE_APPLICATION_CREDENTIALS` | — | Path to GCP service account JSON (set automatically in Docker) |
 
 Frontend dev server variables (set in shell, not in Spring):

@@ -37,6 +37,9 @@ dependencies {
     // Jackson (JSON)
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
+    // Bucket4j — token-bucket rate limiting (per-IP throttling on game creation)
+    implementation 'com.bucket4j:bucket4j-core:8.10.1'
+
     // Lombok (optional, for reducing boilerplate)
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
