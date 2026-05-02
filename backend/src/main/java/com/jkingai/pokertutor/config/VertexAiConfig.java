@@ -19,10 +19,13 @@ public class VertexAiConfig {
 
     @Bean
     VertexAI vertexAi(@Value("${app.ai.project-id}") String projectId,
-                      @Value("${app.ai.location}") String location) throws IOException {
+                      @Value("${app.ai.location}") String location,
+                      @Value("${app.ai.api-endpoint:aiplatform.googleapis.com}") String apiEndpoint)
+            throws IOException {
         return new VertexAI.Builder()
                 .setProjectId(projectId)
                 .setLocation(location)
+                .setApiEndpoint(apiEndpoint)
                 .build();
     }
 
